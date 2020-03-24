@@ -134,4 +134,123 @@ public class BST<E extends Comparable<E>> {
         }
     }
 
+    public void levelOrder() {
+        if (root == null) {
+            return;
+        }
+        Deque<Node> queue = new ArrayDeque<>();
+        queue.addLast(root);
+        while (!queue.isEmpty()) {
+            Node node = queue.removeFirst();
+            System.out.println(node.e);
+            if (node.left != null) {
+                queue.addLast(node.left);
+            }
+            if (node.right != null) {
+                queue.addLast(node.right);
+            }
+        }
+    }
+
+    public E min() {
+        if (size == 0) {
+            throw new IllegalArgumentException("BST is empty");
+        }
+        return min(root).e;
+    }
+
+    private Node min(Node node) {
+        if (node.left == null) {
+            return node;
+        }
+        return min(node.left);
+    }
+
+    public E max() {
+        if (size == 0) {
+            throw new IllegalArgumentException("BST is empty");
+        }
+        return max(root).e;
+    }
+
+    private Node max(Node node) {
+        if (node.right == null) {
+            return node;
+        }
+        return max(node.left);
+    }
+
+    public E removeMax() {
+        E e = max();
+        root = removeMax(root);
+        return e;
+    }
+
+    private Node removeMax(Node node) {
+        if (node.right == null) {
+            Node leftNode = node.left;
+            node.left = null;
+            size--;
+            return leftNode;
+        }
+        node.right = removeMax(node.right);
+        return node;
+    }
+
+
+    public E removeMin() {
+        E e = max();
+        root = removeMin(root);
+        return e;
+    }
+
+    private Node removeMin(Node node) {
+        if (node.left == null) {
+            Node rightNode = node.right;
+            node.right = null;
+            size--;
+            return rightNode;
+        }
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    public E remove(E e) {
+        return remove(root, e).e;
+    }
+
+    private Node remove(Node node, E e) {
+        if (node == null) {
+            return null;
+        }
+        if (e.compareTo(node.e) < 0) {
+            node.left = remove(node.left, e);
+            return node;
+        } else if (e.compareTo(node.e) > 0) {
+            node.right = remove(node.right, e);
+            return node;
+        } else {
+            if (node.left == null) {
+                Node rightNode = node.right;
+                node.right = null;
+                size--;
+                return rightNode;
+            } else if (node.right == null) {
+                Node leftNode = node.left;
+                node.left = null;
+                size--;
+                return leftNode;
+
+            } else {
+                Node successor = min(node.right);
+                successor.left = node.left;
+                successor.right = removeMin(node.right);
+                node.left = null;
+                node.right = null;
+                return successor;
+            }
+        }
+    }
+
+
 }
