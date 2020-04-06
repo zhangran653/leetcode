@@ -41,7 +41,7 @@ class Solution105 {
     }
 
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-
+        return null;
     }
 
     private TreeNode build(int[] preorder, int[] inorder) {
@@ -53,7 +53,7 @@ class Solution105 {
         for (int i = 0; i < newpre.length; i++) {
             newpre[i] = preorder[i + 1];
         }
-        int[]
+        return null;
 
 
     }

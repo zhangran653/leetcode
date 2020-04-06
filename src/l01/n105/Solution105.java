@@ -41,22 +41,9 @@ class Solution105 {
     }
 
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-
+        return null;
     }
 
-    private TreeNode build(int[] preorder, int[] inorder) {
-        if (preorder == null || preorder.length == 0) {
-            return null;
-        }
-        TreeNode root = new TreeNode(preorder[0]);
-        int[] newpre = new int[preorder.length - 1];
-        for (int i = 0; i < newpre.length; i++) {
-            newpre[i] = preorder[i + 1];
-        }
-        int[]
-
-
-    }
 
 }
 //leetcode submit region end(Prohibit modification and deletion)
