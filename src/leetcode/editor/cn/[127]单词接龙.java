@@ -46,6 +46,14 @@ import java.util.*;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution127 {
+    /**
+     * BFS
+     *
+     * @param beginWord
+     * @param endWord
+     * @param wordList
+     * @return
+     */
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         if (!wordList.contains(endWord)) {
             return 0;
@@ -75,6 +83,134 @@ class Solution127 {
             }
 
         }
+        return 0;
+
+    }
+
+
+    /**
+     * 双向BFS
+     *
+     * @param beginWord
+     * @param endWord
+     * @param wordList
+     * @return
+     */
+    public int ladderLength2(String beginWord, String endWord, List<String> wordList) {
+        if (!wordList.contains(endWord)) {
+            return 0;
+        }
+        wordList.add(beginWord);
+        Set<String> visited1 = new HashSet<>();
+        Queue<String> queue1 = new LinkedList<>();
+        queue1.offer(beginWord);
+        visited1.add(beginWord);
+        int count1 = 0;
+
+        Set<String> visited2 = new HashSet<>();
+        Queue<String> queue2 = new LinkedList<>();
+        queue2.offer(endWord);
+        visited2.add(endWord);
+        int count2 = 0;
+
+        while (!queue1.isEmpty() && !queue2.isEmpty()) {
+            count1++;
+            int size1 = queue1.size();
+            while (size1-- > 0) {
+                String s = queue1.poll();
+                for (String word : wordList) {
+                    if (visited1.contains(word)) {
+                        continue;
+                    }
+                    if (!canConvert(s, word)) {
+                        continue;
+                    }
+                    if (visited2.contains(word)) {
+                        return count1 + count2 + 1;
+                    }
+                    queue1.offer(word);
+                    visited1.add(word);
+                }
+            }
+            count2++;
+            int size2 = queue2.size();
+            while (size2-- > 0) {
+                String s = queue2.poll();
+                for (String word : wordList) {
+                    if (visited2.contains(word)) {
+                        continue;
+                    }
+                    if (!canConvert(s, word)) {
+                        continue;
+                    }
+                    if (visited1.contains(word)) {
+                        return count1 + count2 + 1;
+                    }
+                    queue2.offer(word);
+                    visited2.add(word);
+                }
+            }
+        }
+
+        return 0;
+
+    }
+
+    /**
+     * 优化双端BFS，每一次从更少的队列开始遍历
+     *
+     * @param beginWord
+     * @param endWord
+     * @param wordList
+     * @return
+     */
+    public int ladderLength3(String beginWord, String endWord, List<String> wordList) {
+        if (!wordList.contains(endWord)) {
+            return 0;
+        }
+        wordList.add(beginWord);
+        Set<String> visited1 = new HashSet<>();
+        Queue<String> queue1 = new LinkedList<>();
+        queue1.offer(beginWord);
+        visited1.add(beginWord);
+        int count = 0;
+
+        Set<String> visited2 = new HashSet<>();
+        Queue<String> queue2 = new LinkedList<>();
+        queue2.offer(endWord);
+        visited2.add(endWord);
+
+        while (!queue1.isEmpty() && !queue2.isEmpty()) {
+            // 从数量较少的队列开始遍历
+            if (queue1.size() > queue2.size()) {
+                Queue<String> temp = queue1;
+                queue1 = queue2;
+                queue2 = temp;
+
+                Set<String> tempv = visited1;
+                visited1 = visited2;
+                visited2 = tempv;
+            }
+            count++;
+            int size = queue1.size();
+            while (size-- > 0) {
+                String s = queue1.poll();
+                for (String word : wordList) {
+                    if (visited1.contains(word)) {
+                        continue;
+                    }
+                    if (!canConvert(s, word)) {
+                        continue;
+                    }
+                    if (visited2.contains(word)) {
+                        return count + 1;
+                    }
+                    queue1.offer(word);
+                    visited1.add(word);
+                }
+            }
+        }
+
         return 0;
 
     }
