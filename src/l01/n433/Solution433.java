@@ -49,9 +49,7 @@ package l01.n433;//一条基因序列由一个带有8个字符的字符串表示
 //
 
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution433 {
@@ -100,6 +98,186 @@ class Solution433 {
         }
 
     }
+
+    /**
+     * BFS
+     *
+     * @param start
+     * @param end
+     * @param bank
+     * @return
+     */
+    public int minMutation1(String start, String end, String[] bank) {
+        Queue<String> queue = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+        queue.add(start);
+        int count = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            count++;
+            while (size-- > 0) {
+                String s = queue.poll();
+                for (String b : bank) {
+                    if (visited.contains(b)) {
+                        continue;
+                    }
+                    if (!canConvert(s, b)) {
+                        continue;
+                    }
+                    if (b.equals(end)) {
+                        return count;
+                    }
+                    queue.add(b);
+                    visited.add(b);
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 双端BFS
+     *
+     * @param start
+     * @param end
+     * @param bank
+     * @return
+     */
+    public int minMutation2(String start, String end, String[] bank) {
+        Set<String> set = new HashSet<>();
+        set.addAll(Arrays.asList(bank));
+        if (!set.contains(end)) {
+            return -1;
+        }
+        Queue<String> queue1 = new LinkedList<>();
+        Set<String> visited1 = new HashSet<>();
+        visited1.add(start);
+        queue1.add(start);
+        int count1 = 0;
+        Queue<String> queue2 = new LinkedList<>();
+        Set<String> visited2 = new HashSet<>();
+        queue2.add(end);
+        int count2 = 0;
+
+
+        while (!queue1.isEmpty() && !queue2.isEmpty()) {
+            count1++;
+            int size1 = queue1.size();
+            while (size1-- > 0) {
+                String s = queue1.poll();
+                for (String b : bank) {
+                    if (visited1.contains(b)) {
+                        continue;
+                    }
+                    if (!canConvert(s, b)) {
+                        continue;
+                    }
+                    if (visited2.contains(b)) {
+                        return count1 + count2;
+                    }
+                    queue1.add(b);
+                    visited1.add(b);
+                }
+
+            }
+            count2++;
+            int size2 = queue2.size();
+            while (size2-- > 0) {
+                String s = queue2.poll();
+                for (String b : bank) {
+                    if (visited2.contains(b)) {
+                        continue;
+                    }
+                    if (!canConvert(s, b)) {
+                        continue;
+                    }
+                    if (visited1.contains(b)) {
+                        return count1 + count2;
+                    }
+                    queue2.add(b);
+                    visited2.add(b);
+                }
+            }
+
+        }
+
+
+        return -1;
+    }
+
+    /**
+     * 优化双端BFS，每次从较少的队列搜索
+     *
+     * @param start
+     * @param end
+     * @param bank
+     * @return
+     */
+    public int minMutation3(String start, String end, String[] bank) {
+        Set<String> set = new HashSet<>();
+        set.addAll(Arrays.asList(bank));
+        if (!set.contains(end)) {
+            return -1;
+        }
+        Queue<String> queue1 = new LinkedList<>();
+        Set<String> visited1 = new HashSet<>();
+        visited1.add(start);
+        queue1.add(start);
+        int count = 0;
+        Queue<String> queue2 = new LinkedList<>();
+        Set<String> visited2 = new HashSet<>();
+        queue2.add(end);
+
+
+        while (!queue1.isEmpty() && !queue2.isEmpty()) {
+            if (queue1.size() > queue2.size()) {
+                Queue<String> temp = queue1;
+                queue1 = queue2;
+                queue2 = temp;
+                Set<String> temps = visited1;
+                visited1 = visited2;
+                visited2 = temps;
+            }
+            count++;
+            int size = queue1.size();
+            while (size-- > 0) {
+                String s = queue1.poll();
+                for (String b : bank) {
+                    if (visited1.contains(b)) {
+                        continue;
+                    }
+                    if (!canConvert(s, b)) {
+                        continue;
+                    }
+                    if (visited2.contains(b)) {
+                        return count;
+                    }
+                    queue1.add(b);
+                    visited1.add(b);
+                }
+            }
+        }
+
+
+        return -1;
+    }
+
+    private boolean canConvert(String a, String b) {
+        if (a.length() != b.length()) {
+            return false;
+        }
+        int count = 0;
+        for (int i = 0; i < a.length(); i++) {
+            if (a.charAt(i) != b.charAt(i)) {
+                count++;
+            }
+            if (count > 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public static void main(String[] args) {
         String[] bank = {"AACCGGTA", "AACCGCTA", "AAACGGTA"};
