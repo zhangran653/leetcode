@@ -29,10 +29,12 @@ class Solution322 {
         if (amount <= 0 || coins.length == 0) {
             return -1;
         }
+        // 1. 定义
         int[] dp = new int[amount + 1];
-        //
+        //2. 初始化
         Arrays.fill(dp, amount + 1);
         dp[0] = 0;
+        //3. 状态转移
         for (int i = 1; i <= amount; i++) {
             int min = Integer.MAX_VALUE;
             for (int coin : coins) {
