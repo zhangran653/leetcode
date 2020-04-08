@@ -1,4 +1,4 @@
-package leetcode.editor.cn;//给定两个单词（beginWord 和 endWord）和一个字典 wordList，找出所有从 beginWord 到 endWord 的最短转换序列。转换
+package l01.n126;//给定两个单词（beginWord 和 endWord）和一个字典 wordList，找出所有从 beginWord 到 endWord 的最短转换序列。转换
 //需遵循如下规则： 
 //
 // 
@@ -42,6 +42,8 @@ package leetcode.editor.cn;//给定两个单词（beginWord 和 endWord）和一
 //解释: endWord "cog" 不在字典中，所以不存在符合要求的转换序列。 
 // Related Topics 广度优先搜索 数组 字符串 回溯算法
 
+
+import leetcode.editor.cn.Solution126;
 
 import java.util.*;
 
