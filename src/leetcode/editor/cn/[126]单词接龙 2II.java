@@ -81,9 +81,6 @@ class Solution126 {
                 String word = p.get(p.size() - 1);
                 Set<String> neighbours = neighbours(word, wordList, visited);
                 for (String n : neighbours) {
-                    if (visited.contains(n)) {
-                        continue;
-                    }
                     subVisited.add(n);
                     List<String> ans = new LinkedList<>(p);
                     ans.add(n);
