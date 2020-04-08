@@ -107,18 +107,38 @@ class Solution70_1 {
         return r;
     }
 
+    /**
+     * 使用Fibonacci通项公式 fn = 1/sqrt(5)( ((1+sqrt(5)) / 2)^n - ((1-sqrt(5)) / 2)^n) )
+     */
+    class Solution70_3 {
+        public int climbStairs(int n) {
+            double sqrt5 = Math.sqrt(5);
+            double fibn = Math.pow((1 + sqrt5) / 2, n + 1) - Math.pow((1 - sqrt5) / 2, n + 1);
+            return (int) (fibn / sqrt5);
+        }
 
+    }
 }
 
 /**
- * 使用Fibonacci通项公式 fn = 1/sqrt(5)( ((1+sqrt(5)) / 2)^n - ((1-sqrt(5)) / 2)^n) )
- * 时间复杂度O(log(n))
+ * 动态规划
  */
-class Solution70_3 {
+class Solution70_4 {
     public int climbStairs(int n) {
-        double sqrt5 = Math.sqrt(5);
-        double fibn = Math.pow((1 + sqrt5) / 2, n + 1) - Math.pow((1 - sqrt5) / 2, n + 1);
-        return (int) (fibn / sqrt5);
+        if (n <= 2) {
+            return n;
+        }
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        dp[2] = 2;
+
+        for (int i = 3; i <= n; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
+
     }
+
 }
+
 //leetcode submit region end(Prohibit modification and deletion)
