@@ -33,4 +33,5 @@ logs/
 
 .project
 /.DS_Store
+out/
 # Created by .ignore support plugin (hsz.mobi)
