@@ -26,23 +26,21 @@ import java.util.Arrays;
  */
 class Solution322 {
     public int coinChange(int[] coins, int amount) {
-        if (amount <= 0 || coins.length == 0) {
+        if (amount < 0 || coins.length == 0) {
             return -1;
         }
-        // 1. 定义
         int[] dp = new int[amount + 1];
-        //2. 初始化
+        //
         Arrays.fill(dp, amount + 1);
         dp[0] = 0;
-        //3. 状态转移
         for (int i = 1; i <= amount; i++) {
-            int min = Integer.MAX_VALUE;
+            int min = amount;
             for (int coin : coins) {
                 if (i - coin >= 0 && dp[i - coin] != amount + 1 && dp[i - coin] < min) {
                     min = dp[i - coin];
                 }
             }
-            dp[i] = min;
+            dp[i] = min + 1;
         }
         return dp[amount] == amount + 1 ? -1 : dp[amount];
     }
