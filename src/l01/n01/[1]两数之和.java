@@ -67,7 +67,7 @@ class Solution1_3 {
             map.put(nums[i], i);
 
         }
-
+        System.out.println();
         return new int[]{};
     }
 }
