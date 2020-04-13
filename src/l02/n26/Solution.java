@@ -52,18 +52,20 @@ package l02.n26;//给定一个排序数组，你需要在 原地 删除重复出
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int removeDuplicates(int[] nums) {
-        int p = 0;
-        int q = 1;
-        while (q < nums.length) {
-            if (nums[p] != nums[q]) {
-                if (q - p > 1) {
-                    nums[p + 1] = nums[q];
-                }
-                p++;
+        int size = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i == 0) {
+                size++;
+                continue;
             }
-            q++;
+            if (nums[i - 1] == nums[i]) {
+                continue;
+            }
+            nums[size] = nums[i];
+            size++;
         }
-        return p + 1;
+        return size;
+
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
