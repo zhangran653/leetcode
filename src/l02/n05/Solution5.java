@@ -18,26 +18,22 @@ package l02.n05;//给定一个字符串 s，找到 s 中最长的回文子串。
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution5 {
     public String longestPalindrome(String s) {
-        if (s.length() < 2) {
+        if (s == null || s.length() < 2) {
             return s;
         }
         int len = s.length();
-        // 1.定义dp[i][j] 表示Sij是否为回文
+        // 1.定义。 dp[i][j] 表示Sij 是否是回文
         boolean[][] dp = new boolean[len][len];
-
-        // 2.初始化 dp[i][i]为true
         for (int i = 0; i < len; i++) {
             dp[i][i] = true;
         }
-        int start = 0;
+        // 2.状态函数
+        // dp[i][j] = dp[i+1][j-1] && Si == Sj
         int maxLen = 1;
-        //3.状态转移
-        // dp[i][j] = (dp[i+1][j-1] && Si == Sj)
+        int start = 0;
         for (int j = 1; j < len; j++) {
             for (int i = 0; i < j; i++) {
                 if (s.charAt(i) == s.charAt(j)) {
-                    //边界条件是：表达式 [i + 1, j - 1] 不构成区间，即长度严格小于 2，
-                    // 即 j - 1 - (i + 1) + 1 < 2 ，整理得 j - i < 3。
                     if (j - i < 3) {
                         dp[i][j] = true;
                     } else {
@@ -46,20 +42,16 @@ class Solution5 {
                 } else {
                     dp[i][j] = false;
                 }
-
-                // 更新start，max
-                // 只要 dp[i][j] == true 成立，就表示子串 s[i, j] 是回文，此时记录回文长度和起始位置
                 if (dp[i][j]) {
-                    int curLen = j - i + 1;
-                    if (curLen > maxLen) {
-                        maxLen = curLen;
+                    if (j - i + 1 > maxLen) {
                         start = i;
+                        maxLen = j - i + 1;
                     }
                 }
             }
         }
-
         return s.substring(start, start + maxLen);
+
     }
 
     public static void main(String[] args) {
