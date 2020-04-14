@@ -53,5 +53,39 @@ class Solution63 {
         }
         return dp[m - 1][n - 1];
     }
+
+    /**
+     * 优化空间复杂度到O(n)
+     *
+     * @param obstacleGrid
+     * @return
+     */
+    public int uniquePathsWithObstacles1(int[][] obstacleGrid) {
+        int n = obstacleGrid[0].length;
+        int[] dp = new int[n];
+
+        for (int j = 0; j < n; j++) {
+            if (obstacleGrid[0][j] == 1) {
+                break;
+            }
+            dp[j] = 1;
+        }
+        int obs = obstacleGrid.length + 1;
+        for (int i = 0; i < obstacleGrid.length; i++) {
+            if (obstacleGrid[i][0] == 1) {
+                obs = i;
+                break;
+            }
+        }
+        for (int i = 1; i < obstacleGrid.length; i++) {
+            if (i >= obs) {
+                dp[0] = 0;
+            }
+            for (int j = 1; j < n; j++) {
+                dp[j] = obstacleGrid[i][j] == 1 ? 0 : dp[j] + dp[j - 1];
+            }
+        }
+        return dp[n - 1];
+    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
