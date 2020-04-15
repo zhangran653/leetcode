@@ -54,5 +54,17 @@ class Solution198 {
         return dp[nums.length - 1];
 
     }
+
+    public int rob3(int[] nums) {
+        int preMax = 0;
+        int max = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int temp = max;
+            max = Math.max(preMax + nums[i], max);
+            preMax = temp;
+        }
+        return Math.max(preMax, max);
+    }
+
 }
 //leetcode submit region end(Prohibit modification and deletion)
