@@ -25,34 +25,28 @@ package stock_dp.n121;//给定一个数组，它的第 i 个元素是一支给�
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution121 {
+
     /**
-     * 动态规划
-     * 区间和可以转换成求差的问题，求差问题，也可以转换成区间和的问题
-     * <p>
-     * dp[i] 表示前 i 天的最大利润，因为我们始终要使利润最大化，则：
-     * <p>
-     * dp[i] = max(dp[i-1], prices[i]-minprice)
      *
      * @param prices
      * @return
      */
     public int maxProfit(int[] prices) {
-        if (prices.length == 1) {
+        if (prices.length == 0) {
             return 0;
         }
-        // 1. 定义状态,dp[i] 表示前 i 天的最大利润
-        int[] dp = new int[prices.length];
-
-        //2. 初始化min
-        int min = prices[0];
-
-        //3.状态转移方程
-        // dp[i] = max(dp[i-1], prices[i]-minprice)
-        for (int i = 1; i < prices.length; i++) {
-            min = Math.min(min, prices[i]);
-            dp[i] = Math.max(dp[i - 1], prices[i] - min);
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            if (i == 0) {
+                dp[0][0] = 0;
+                dp[0][1] = -prices[0];
+                continue;
+            }
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+            dp[i][1] = Math.max(dp[i - 1][1], -prices[i]);
         }
-        return dp[prices.length - 1];
+        return dp[n - 1][0];
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -1,4 +1,4 @@
-//给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。 
+package leetcode.editor.cn;//给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。
 //
 // 设计一个算法来计算你所能获取的最大利润。你最多可以完成 两笔 交易。 
 //
@@ -29,8 +29,27 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+class Solution123 {
     public int maxProfit(int[] prices) {
+        int n = prices.length;
+        if (n == 0) {
+            return 0;
+        }
+        int K = 2;
+        int[][][] dp = new int[n][K + 1][2];
+
+        for (int i = 0; i < n; i++) {
+            for (int k = 1; k <= K; k++) {
+                if (i == 0) {
+                    dp[i][k][0] = 0;
+                    dp[i][k][1] = -prices[i];
+                    continue;
+                }
+                dp[i][k][0] = Math.max(dp[i - 1][k][0], dp[i - 1][k][1] + prices[i]);
+                dp[i][k][1] = Math.max(dp[i - 1][k][1], dp[i - 1][k - 1][0] - prices[i]);
+            }
+        }
+        return dp[n - 1][K][0];
 
     }
 }

@@ -67,6 +67,8 @@ class Solution122 {
         // 状态转移方程：
         //第i天不持有，是前一天不持有，当天保持不变，或者是前一天持有，卖出去
         //第i天持有，是前一天持有，当天保持不变，或者是前一天步持有，买进来
+        // dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])
+        // dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i])
         for (int i = 1; i < prices.length; i++) {
             dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
             dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);

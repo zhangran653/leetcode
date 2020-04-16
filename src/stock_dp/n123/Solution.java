@@ -30,7 +30,37 @@ package stock_dp.n123;//给定一个数组，它的第 i 个元素是一支给�
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
+    /**
+     * k = 2，最多2笔交易
+     * - 状态转移方程
+     * - dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
+     * - dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
+     * - 循环k的状态
+     * for(int k=1;k<=2;k++)
+     *
+     * @param prices
+     * @return
+     */
     public int maxProfit(int[] prices) {
+        int n = prices.length;
+        if (n == 0) {
+            return 0;
+        }
+        int K = 2;
+        int[][][] dp = new int[n][K + 1][2];
+
+        for (int i = 0; i < n; i++) {
+            for (int k = 1; k <= K; k++) {
+                if (i == 0) {
+                    dp[i][k][0] = 0;
+                    dp[i][k][1] = -prices[i];
+                    continue;
+                }
+                dp[i][k][0] = Math.max(dp[i - 1][k][0], dp[i - 1][k][1] + prices[i]);
+                dp[i][k][1] = Math.max(dp[i - 1][k][1], dp[i - 1][k - 1][0] - prices[i]);
+            }
+        }
+        return dp[n - 1][K][0];
 
     }
 }

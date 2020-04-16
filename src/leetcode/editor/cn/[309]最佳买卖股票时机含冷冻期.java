@@ -1,4 +1,4 @@
-//给定一个整数数组，其中第 i 个元素代表了第 i 天的股票价格 。 
+package leetcode.editor.cn;//给定一个整数数组，其中第 i 个元素代表了第 i 天的股票价格 。
 //
 // 设计一个算法计算出最大利润。在满足以下约束条件下，你可以尽可能地完成更多的交易（多次买卖一支股票）: 
 //
@@ -16,9 +16,20 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+class Solution309 {
     public int maxProfit(int[] prices) {
-
+        int n = prices.length;
+        if (n == 0) {
+            return 0;
+        }
+        int[][] dp = new int[n][2];
+        dp[0][0] = 0;
+        dp[0][1] = -prices[0];
+        for (int i = 1; i < n; i++) {
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+            dp[i][1] = Math.max(dp[i - 1][1], i - 2 == -1 ? -prices[i] : dp[i - 2][0] - prices[i]);
+        }
+        return dp[n - 1][0];
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
