@@ -6,7 +6,7 @@ package bag_dp;
  **/
 public class bag0_1 {
     /**
-     * 背包问题 I —— 0-1背包无价值
+     * 背包问题 I —— 0-1背包
      */
     public int zeroOnePack(int V, int N, int[] weight, int[] value) {
 
