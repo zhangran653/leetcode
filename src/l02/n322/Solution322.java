@@ -30,7 +30,7 @@ class Solution322 {
         for (int i = 1; i <= amount; i++) {
             for (int coin : coins) {
                 if (i - coin >= 0 && dp[i - coin] != amount + 1) {
-                    dp[i] = Math.min(dp[i - 1] + 1, dp[i]);
+                    dp[i] = Math.min(dp[i - coin] + 1, dp[i]);
                 }
             }
         }
