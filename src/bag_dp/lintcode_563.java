@@ -33,4 +33,18 @@ public class lintcode_563 {
 
         return dp[n][target];
     }
+
+    public int backPackV2(int[] nums, int target) {
+        // write your code here
+        int n = nums.length;
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = target; j >= nums[i - 1]; j--) {
+                dp[j] += dp[j - nums[i - 1]];
+            }
+        }
+        return dp[target];
+
+    }
 }
