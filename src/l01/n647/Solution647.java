@@ -36,7 +36,7 @@ class Solution647 {
         int[][] dp = new int[n][n];
         int res = 0;
         for (int j = 0; j < n; j++) {
-            for (int i = 0; i <=j ; i++) {
+            for (int i = 0; i <= j; i++) {
                 if (s.charAt(i) == s.charAt(j) && (j - i < 2 || dp[i + 1][j - 1] == 1)) {
                     dp[i][j] = 1;
                     res++;
@@ -46,8 +46,31 @@ class Solution647 {
         return res;
     }
 
-}
+    /**
+     * 中心扩展法
+     *
+     * @param s
+     * @return
+     */
+    public int countSubstrings1(String s) {
+        int n = s.length();
+        if (n == 0) {
+            return 0;
+        }
+        int res = 0;
+        for (int center = 0; center < 2 * n - 1; center++) {
+            int left = center / 2;
+            int right = left + center % 2;
+            while (left >= 0 && right < n && s.charAt(left) == s.charAt(right)) {
+                left--;
+                right++;
+                res++;
+            }
+        }
+        return res;
+    }
 
+}
 
 
 //leetcode submit region end(Prohibit modification and deletion)
