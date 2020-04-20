@@ -36,7 +36,7 @@ class Solution647 {
         int[][] dp = new int[n][n];
         int res = 0;
         for (int j = 0; j < n; j++) {
-            for (int i = j; i >= 0; i--) {
+            for (int i = 0; i <=j ; i++) {
                 if (s.charAt(i) == s.charAt(j) && (j - i < 2 || dp[i + 1][j - 1] == 1)) {
                     dp[i][j] = 1;
                     res++;
