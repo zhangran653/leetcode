@@ -50,4 +50,28 @@ public class Trie {
             size++;
         }
     }
+
+    public boolean contains(String w) {
+        Node cur = root;
+        for (int i = 0; i < w.length(); i++) {
+            Character c = w.charAt(i);
+            if (cur.next.get(c) == null) {
+                return false;
+            }
+            cur = cur.next.get(c);
+        }
+        return cur.isWord;
+    }
+
+    public boolean isPrefix(String prefix) {
+        Node cur = root;
+        for (int i = 0; i < prefix.length(); i++) {
+            Character c = prefix.charAt(i);
+            if (cur.next.get(c) == null) {
+                return false;
+            }
+            cur = cur.next.get(c);
+        }
+        return true;
+    }
 }
