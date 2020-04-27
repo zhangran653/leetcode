@@ -20,7 +20,7 @@ public class BST<E extends Comparable<E>> {
         }
 
         public Node(E e) {
-            new Node(e, null, null);
+            this(e, null, null);
         }
 
 
@@ -36,7 +36,7 @@ public class BST<E extends Comparable<E>> {
 
 
     public void add(E e) {
-        add(root, e);
+        root = add(root, e);
     }
 
 

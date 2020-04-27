@@ -48,7 +48,7 @@ public class AvlTree<K extends Comparable<K>, V> {
     }
 
     public void add(K k, V v) {
-        add(root, k, v);
+        root = add(root, k, v);
     }
 
     private Node add(Node node, K k, V v) {
