@@ -44,5 +44,74 @@ class Solution322 {
         }
         return dp[amount] == amount + 1 ? -1 : dp[amount];
     }
+
+    /**
+     * 直接递归超时
+     *
+     * @param coins
+     * @param amount
+     * @return
+     */
+    private int res;
+
+
+    public int coinChange1(int[] coins, int amount) {
+        res = amount + 1;
+        _coinChange(0, amount, coins);
+        return res == amount + 1 ? -1 : res;
+    }
+
+    private void _coinChange(int count, int amount, int[] coins) {
+        if (amount < 0) {
+            return;
+        }
+        if (amount == 0) {
+            res = Math.min(res, count);
+            return;
+        }
+        for (int coin : coins) {
+            if (amount - coin < 0) {
+                continue;
+            }
+            _coinChange(count + 1, amount - coin, coins);
+        }
+    }
+
+    /**
+     * 递归加记忆化搜索
+     *
+     * @param coins
+     * @param amount
+     * @return
+     */
+    // memo[n]表示换取n最少的硬币数量
+    private int[] memo;
+
+    public int coinChange2(int[] coins, int amount) {
+        memo = new int[amount + 1];
+        return _coinChange1(amount, coins);
+    }
+
+    private int _coinChange1(int amount, int[] coins) {
+        if (amount < 0) {
+            return -1;
+        }
+        if (amount == 0) {
+            return 0;
+        }
+        if (memo[amount] != 0) {
+            return memo[amount];
+        }
+        int min = Integer.MAX_VALUE;
+        for (int coin : coins) {
+            int res = _coinChange1(amount - coin, coins);
+            if (res >= 0 && res < min) {
+                min = res + 1;
+            }
+        }
+        memo[amount] = (min == Integer.MAX_VALUE ? -1 : min);
+        return memo[amount];
+    }
+
 }
 //leetcode submit region end(Prohibit modification and deletion)
