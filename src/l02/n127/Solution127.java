@@ -1,4 +1,4 @@
-package leetcode.editor.cn;//给定两个单词（beginWord 和 endWord）和一个字典，找到从 beginWord 到 endWord 的最短转换序列的长度。转换需遵循如下规则：
+package l02.n127;//给定两个单词（beginWord 和 endWord）和一个字典，找到从 beginWord 到 endWord 的最短转换序列的长度。转换需遵循如下规则：
 // 
 //
 // 
@@ -55,53 +55,48 @@ class Solution127 {
      * @return
      */
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        if (!wordList.contains(endWord)) {
+        if (wordList.isEmpty() || !wordList.contains(endWord)) {
             return 0;
         }
+        Deque<String> queue = new ArrayDeque<>();
         Set<String> visited = new HashSet<>();
-        Queue<String> queue = new LinkedList<>();
-        queue.offer(beginWord);
+        queue.addLast(beginWord);
         int count = 0;
         while (!queue.isEmpty()) {
-            int size = queue.size();
             count++;
+            int size = queue.size();
             for (int i = 0; i < size; i++) {
-                String start = queue.poll();
-                for (String s : wordList) {
-                    if (visited.contains(s)) {
+                String start = queue.pollFirst();
+                for (String word : wordList) {
+                    if (visited.contains(word)) {
                         continue;
                     }
-                    if (!canConvert(start, s)) {
+                    if (!canConvert(start, word)) {
                         continue;
                     }
-                    if (s.equals(endWord)) {
+                    if (endWord.equals(word)) {
                         return count + 1;
                     }
-                    visited.add(s);
-                    queue.offer(s);
+                    visited.add(word);
+                    queue.addLast(word);
                 }
             }
-
         }
         return 0;
-
     }
 
-
     /**
-     * 双向BFS
+     * 双端BFS
      *
      * @param beginWord
      * @param endWord
      * @param wordList
      * @return
      */
-    public int ladderLength2(String beginWord, String endWord, List<String> wordList) {
+    public int ladderLength1(String beginWord, String endWord, List<String> wordList) {
         if (wordList.isEmpty() || !wordList.contains(endWord)) {
             return 0;
         }
-        wordList.add(beginWord);
-
         Deque<String> queue1 = new ArrayDeque<>();
         Set<String> v1 = new HashSet<>();
         queue1.addLast(beginWord);
@@ -116,8 +111,7 @@ class Solution127 {
 
         while (!queue1.isEmpty() && !queue2.isEmpty()) {
             count1++;
-            int size1 = queue1.size();
-            for (int i = 0; i < size1; i++) {
+            for (int i = 0; i < queue1.size(); i++) {
                 String s = queue1.pollFirst();
                 for (String word : wordList) {
                     if (v1.contains(word)) {
@@ -135,8 +129,7 @@ class Solution127 {
             }
 
             count2++;
-            int size2 = queue2.size();
-            for (int i = 0; i < size2; i++) {
+            for (int i = 0; i < queue2.size(); i++) {
                 String s = queue2.pollFirst();
                 for (String word : wordList) {
                     if (v2.contains(word)) {
@@ -157,79 +150,22 @@ class Solution127 {
 
     }
 
-    /**
-     * 优化双端BFS，每一次从更少的队列开始遍历
-     *
-     * @param beginWord
-     * @param endWord
-     * @param wordList
-     * @return
-     */
-    public int ladderLength3(String beginWord, String endWord, List<String> wordList) {
-        if (!wordList.contains(endWord)) {
-            return 0;
-        }
-        wordList.add(beginWord);
-        Set<String> visited1 = new HashSet<>();
-        Queue<String> queue1 = new LinkedList<>();
-        queue1.offer(beginWord);
-        visited1.add(beginWord);
-        int count = 0;
-
-        Set<String> visited2 = new HashSet<>();
-        Queue<String> queue2 = new LinkedList<>();
-        queue2.offer(endWord);
-        visited2.add(endWord);
-
-        while (!queue1.isEmpty() && !queue2.isEmpty()) {
-            // 从数量较少的队列开始遍历
-            if (queue1.size() > queue2.size()) {
-                Queue<String> temp = queue1;
-                queue1 = queue2;
-                queue2 = temp;
-
-                Set<String> tempv = visited1;
-                visited1 = visited2;
-                visited2 = tempv;
-            }
-            count++;
-            int size = queue1.size();
-            while (size-- > 0) {
-                String s = queue1.poll();
-                for (String word : wordList) {
-                    if (visited1.contains(word)) {
-                        continue;
-                    }
-                    if (!canConvert(s, word)) {
-                        continue;
-                    }
-                    if (visited2.contains(word)) {
-                        return count + 1;
-                    }
-                    queue1.offer(word);
-                    visited1.add(word);
-                }
-            }
-        }
-
-        return 0;
-
-    }
-
-    private boolean canConvert(String s, String endWord) {
-        if (s.length() != endWord.length()) {
+    private boolean canConvert(String a, String b) {
+        if (a.length() != b.length()) {
             return false;
         }
-        int count = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) != endWord.charAt(i)) {
-                count++;
+        int diff = 0;
+        for (int i = 0; i < a.length(); i++) {
+            if (a.charAt(i) != b.charAt(i)) {
+                diff++;
             }
-            if (count > 1) {
+            if (diff > 1) {
                 return false;
             }
         }
         return true;
     }
+
+
 }
 //leetcode submit region end(Prohibit modification and deletion)
