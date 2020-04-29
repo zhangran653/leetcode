@@ -150,6 +150,67 @@ class Solution127 {
 
     }
 
+
+    /**
+     * 双端队列，每次从较少的队列开始
+     *
+     * @param beginWord
+     * @param endWord
+     * @param wordList
+     * @return
+     */
+    public int ladderLength2(String beginWord, String endWord, List<String> wordList) {
+        if (!wordList.contains(endWord)) {
+            return 0;
+        }
+        wordList.add(beginWord);
+        Deque<String> queue1 = new ArrayDeque<>();
+        Set<String> v1 = new HashSet<>();
+        queue1.addLast(beginWord);
+        v1.add(beginWord);
+
+        Deque<String> queue2 = new ArrayDeque<>();
+        Set<String> v2 = new HashSet<>();
+        queue2.addLast(endWord);
+        v2.add(endWord);
+        int count = 0;
+
+        while (!queue1.isEmpty() && !queue2.isEmpty()) {
+
+            if (queue1.size() > queue2.size()) {
+                Deque<String> temp = queue1;
+                queue1 = queue2;
+                queue2 = temp;
+
+                Set<String> tempv = v1;
+                v1 = v2;
+                v2 = tempv;
+            }
+            count++;
+            int size = queue1.size();
+            while (size-- > 0) {
+                String s = queue1.pollFirst();
+                for (String word : wordList) {
+                    if (v1.contains(word)) {
+                        continue;
+                    }
+                    if (!canConvert(s, word)) {
+                        continue;
+                    }
+                    if (v2.contains(word)) {
+                        return count + 1;
+                    }
+                    v1.add(word);
+                    queue1.addLast(word);
+
+                }
+            }
+
+        }
+
+        return 0;
+    }
+
     private boolean canConvert(String a, String b) {
         if (a.length() != b.length()) {
             return false;
