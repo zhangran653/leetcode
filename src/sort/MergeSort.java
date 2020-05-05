@@ -23,6 +23,7 @@ public class MergeSort {
      * @param r
      */
     private void mergeSort(int[] arr, int l, int r) {
+        // 当规模较小，使用插入排序优化
         if (l >= r) {
             return;
         }
