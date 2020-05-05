@@ -15,16 +15,34 @@ public class InsertSort {
      *
      * @param arr
      */
-    public void sort1(int[] arr) {
+    public void sort(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
             for (int j = i; j > 0 && arr[j] < arr[j - 1]; j--) {
                 int temp = arr[j - 1];
                 arr[j - 1] = arr[j];
                 arr[j] = temp;
-
             }
         }
     }
+
+    /**
+     * 改进
+     *
+     * @param arr
+     */
+    public void sort1(int[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            // 寻找啊arr[i] 合适的插入位置
+            int temp = arr[i];
+            // j保存temp该插入的位置
+            int j;
+            for (j = i; j > 0 && arr[j - 1] > temp; j--) {
+                arr[j] = arr[j - 1];
+            }
+            arr[j] = temp;
+        }
+    }
+
 
     public static void main(String[] args) {
         int[] a = {3, 2, 65, 1, 6, 32, 74, 23, 5};
