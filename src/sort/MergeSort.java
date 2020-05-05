@@ -30,7 +30,11 @@ public class MergeSort {
 
         mergeSort(arr, l, mid);
         mergeSort(arr, mid + 1, r);
-        merge(arr, l, mid, r);
+        // 如果已经有序，则不用再merge了
+        if (arr[mid] > arr[mid + 1]) {
+            merge(arr, l, mid, r);
+        }
+
     }
 
     /**
