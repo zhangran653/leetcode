@@ -7,7 +7,7 @@ import java.util.Random;
  * @author zhangran
  * @since 2020-05-09
  **/
-public class QuickSort {
+public class QuickSort2 {
 
     public void quickSort(int[] arr) {
         quickSort(arr, 0, arr.length - 1);
@@ -23,15 +23,6 @@ public class QuickSort {
         quickSort(arr, p + 1, r);
     }
 
-    /**
-     * 对arr进行partition，返回p
-     * 使得arr[l...p-1] < arr[p], arr[p+1...r] > arr[p]
-     *
-     * @param arr
-     * @param l
-     * @param r
-     * @return
-     */
     private int partition(int[] arr, int l, int r) {
         // 随机标定点
         Random ram = new Random();
@@ -39,13 +30,22 @@ public class QuickSort {
         swap(arr, rand, l);
 
         int v = arr[l];
-        // arr[l...j]<v, arr[j+1...i)>v
-        int j = l;
-        for (int i = l + 1; i <= r; i++) {
-            if (arr[i] < v) {
-                swap(arr, j + 1, i);
-                j++;
+        // arr[l+1...i)<=v,arr(j...r]>=v
+        int i = l + 1;
+        int j = r;
+        while (true) {
+            while (i <= r && arr[i] < v) {
+                i++;
             }
+            while (r >= l + 1 && arr[j] > v) {
+                j--;
+            }
+            if (i > j) {
+                break;
+            }
+            swap(arr, i, j);
+            i++;
+            j--;
         }
         swap(arr, l, j);
         return j;
@@ -59,7 +59,7 @@ public class QuickSort {
 
     public static void main(String[] args) {
         int[] array = {5, 3, 9, 12, 6, 1, 7, 2, 4, 11, 8, 10};
-        new QuickSort().quickSort(array);
+        new QuickSort2().quickSort(array);
         System.out.println(Arrays.toString(array));
     }
 }
