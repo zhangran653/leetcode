@@ -16,7 +16,11 @@ public class CantInterrupt {
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
+                    // 在catch块里重新设置一下中断标示，因为抛出InterruptedException异常后，
+                    // 中断标示位会自动清除
                     e.printStackTrace();
+                    // 加上这一句，就能正常停止线程
+                    Thread.currentThread().interrupt();
                 }
             }
         };
