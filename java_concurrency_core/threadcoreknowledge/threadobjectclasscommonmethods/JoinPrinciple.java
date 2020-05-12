@@ -21,9 +21,10 @@ public class JoinPrinciple {
         thread.start();
         System.out.println("开始等待子线程运行完毕");
         thread.join();
-//        synchronized (thread) {
-//            thread.wait();
-//        }
+        // 等价于join
+        synchronized (thread) {
+            thread.wait();
+        }
         System.out.println("所有子线程执行完毕");
     }
 }
