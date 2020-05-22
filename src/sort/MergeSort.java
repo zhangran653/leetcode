@@ -33,7 +33,7 @@ public class MergeSort {
         mergeSort(arr, mid + 1, r);
         // 如果已经有序，则不用再merge了
         if (arr[mid] > arr[mid + 1]) {
-            merge(arr, l, mid, r);
+            merge2(arr, l, mid, r);
         }
 
     }
@@ -68,6 +68,21 @@ public class MergeSort {
                 j++;
             }
         }
+    }
+
+    private void merge2(int[] arr, int l, int mid, int r) {
+        int[] temp = new int[r - l + 1];
+        int i = l, j = mid + 1, k = 0;
+        while (i <= mid && j <= r) {
+            temp[k++] = arr[i] < arr[j] ? arr[i++] : arr[j++];
+        }
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
+        while (j <= r) {
+            temp[k++] = arr[j++];
+        }
+        System.arraycopy(temp, 0, arr, l, temp.length);
     }
 
     public static void main(String[] args) {
