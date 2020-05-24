@@ -63,7 +63,7 @@ package leetcode.editor.cn;//请你来实现一个 atoi 函数，使其能将字
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution8 {
     public int myAtoi(String str) {
-
+        return 0;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
