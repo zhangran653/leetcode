@@ -36,7 +36,7 @@ public class InsertSort {
             int temp = arr[i];
             // j保存temp该插入的位置
             int j;
-            for (j = i; j > 0 && arr[j - 1] > temp; j--) {
+            for (j = i; j -1>= 0 && arr[j - 1] > temp; j--) {
                 arr[j] = arr[j - 1];
             }
             arr[j] = temp;
