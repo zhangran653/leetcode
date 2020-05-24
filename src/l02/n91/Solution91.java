@@ -37,14 +37,30 @@ class Solution91 {
         for (int i = 2; i <= s.length(); i++) {
             char cur = s.charAt(i - 1);
             char pre = s.charAt(i - 2);
-            //如果该位不为'0'，说明该位单独成字母合法
-            if (cur != '0') {
+            // ... x y
+            //1. x==0,y==0
+            if (pre == '0' && cur == '0') {
+                return 0;
+            }
+            //2. 只有x==0
+            else if (pre == '0') {
                 dp[i] = dp[i - 1];
             }
-            //如果后两位能组成"1x"（x为任意数字）或者"2x"（x小于7），说明最后两位组成字母合法
-            if ((pre == '1') || (pre == '2' && cur <= '6')) {
-                dp[i] = dp[i] + dp[i - 2];
-
+            //3. 只有y==0
+            else if (cur == '0') {
+                if (pre == '1' || pre == '2') {
+                    dp[i] = dp[i - 2];
+                } else {
+                    return 0;
+                }
+            }
+            //4. xy>26
+            else if (pre > '2' || (pre == '2' && cur > '6')) {
+                dp[i] = dp[i - 1];
+            }
+            //5. xy<=26
+            else {
+                dp[i] = dp[i - 1] + dp[i - 2];
             }
         }
         return dp[s.length()];
