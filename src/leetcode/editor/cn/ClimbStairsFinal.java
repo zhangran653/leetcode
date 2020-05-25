@@ -1,5 +1,9 @@
 package leetcode.editor.cn;
 
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 /**
  * 动态规划管中窥豹 ————
  * 爬楼梯，换零钱，装背包
@@ -216,7 +220,8 @@ public class ClimbStairsFinal {
     }
 
     /**
-     * 压缩一维
+     * 压缩一维。实际上这个问题就是0-1背包问题的方案数问题。上面的不限个数就是完全背包问题的方案数问题。
+     * 往经典框架上面套，理解可能会更简单
      */
     public int changeRight5(int amount, int[] coins) {
         int[] dp = new int[amount + 1];
@@ -230,5 +235,84 @@ public class ClimbStairsFinal {
         return dp[amount];
     }
 
+    /**
+     * 最后回到最初的问题
+     * <p>
+     * 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+     * <p>
+     * 每次爬的步数有一个step数组表示，并且已经走过的步数不能重复走。你有多少种不同的方法可以爬到楼顶呢？
+     * <p>
+     * 注意：给定 n 是一个正整数。int[] steps 非空数组
+     */
+    public int climbStairs3(int n, int[] steps) {
+        /**
+         *  dp[i][k] 表示最后一步通过走k步到了i级台阶，
+         *  那么子问题就是
+         *  dp[i][k] = sum(dp[i-k][j]) ，j = for step in [steps_without_taken]
+         *
+         *  实际写出来，相当麻烦
+         *
+         */
+        Arrays.sort(steps);
 
+        // 第二个维度最大为 min(n, max(steps))
+        int maxStep = steps[steps.length - 1];
+        int K = Math.min(n, maxStep) + 1;
+        int[][] dp = new int[n + 1][K];
+        // 初始化
+        dp[0][0] = 1;
+        System.out.println("steps:" + Arrays.toString(steps));
+        int[] copy = new int[steps.length + 1];
+        System.arraycopy(steps, 0, copy, 1, steps.length);
+        copy[0] = 0;
+        for (int i = 1; i <= n; i++) {
+            System.out.println();
+            System.out.println("level:" + i);
+            System.out.println("before" + Arrays.deepToString(dp));
+            for (int step : copy) {
+                Set<Integer> levelCache = new HashSet<>();
+                if (i < step) {
+                    // 台阶小于步数
+                    continue;
+                }
+                // 这里0步也要考虑，所以加上0
+                for (int j : copy) {
+                    if (levelCache.contains(j)) {
+                        continue;
+                    }
+                    if (i - step < j) {
+                        continue;
+                    }
+                    if (j != 0) {
+                        levelCache.add(j);
+                    }
+
+                    // TODO 递推公式这里有问题，dp[i][k] = sum(dp[i-k][j]) ，j = for step in [steps_without_taken]怎么表示？
+                    dp[i][step] += dp[i - step - j][j];
+                }
+            }
+            System.out.println("after" + Arrays.deepToString(dp));
+            System.out.println();
+        }
+
+        int count = 0;
+        for (int i = 0; i < K; i++) {
+            count += dp[n][i];
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        int r1 = new ClimbStairsFinal().climbStairs3(1, new int[]{1, 2});
+        int r2 = new ClimbStairsFinal().climbStairs3(2, new int[]{1, 2});
+        int r3 = new ClimbStairsFinal().climbStairs3(3, new int[]{1, 2});
+        int r4 = new ClimbStairsFinal().climbStairs3(4, new int[]{1, 2, 3});
+        int r5 = new ClimbStairsFinal().climbStairs3(6, new int[]{1, 2, 3});
+        System.out.println(r1);
+        System.out.println(r2);
+        System.out.println(r3);
+        System.out.println(r4);
+        System.out.println(r5);
+
+    }
 }
