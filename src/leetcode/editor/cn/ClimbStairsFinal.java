@@ -288,7 +288,8 @@ public class ClimbStairsFinal {
                     }
 
                     // TODO 递推公式这里有问题，dp[i][k] = sum(dp[i-k][j]) ，j = for step in [steps_without_taken]怎么表示？
-                    dp[i][step] += dp[i - step - j][j];
+                    //  dp[i][step] += dp[i - step-j][j]; ?
+                    dp[i][step] += dp[i - step][j];
                 }
             }
             System.out.println("after" + Arrays.deepToString(dp));
