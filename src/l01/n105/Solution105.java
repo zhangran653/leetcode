@@ -20,6 +20,9 @@ package l01.n105;//根据一棵树的前序遍历与中序遍历构造二叉树�
 
 //leetcode submit region begin(Prohibit modification and deletion)
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -41,7 +44,25 @@ class Solution105 {
     }
 
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return null;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
+        return buildTree(preorder, 0, preorder.length - 1, map, 0, inorder.length - 1);
+    }
+
+    private TreeNode buildTree(int[] preorder, int pLeft, int pRight, Map<Integer, Integer> map, int iLeft, int iRight) {
+        if (pLeft > pRight || iLeft > iRight) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[pLeft]);
+
+        root.left = buildTree(preorder, pLeft + 1, map.get(preorder[pLeft]) - iLeft + pLeft,
+                map, iLeft, map.get(preorder[pLeft]) - 1);
+        root.right = buildTree(preorder, map.get(preorder[pLeft]) - iLeft + pLeft+1, pRight, map,
+                map.get(preorder[pLeft]) + 1, iRight);
+        return root;
+
     }
 
 
