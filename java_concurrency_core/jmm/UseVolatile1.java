@@ -1,7 +1,6 @@
 package jmm;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import singleton.Singleton8;
 
 /**
  * 描述：     volatile适用的情况1

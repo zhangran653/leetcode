@@ -20,8 +20,6 @@ package l02.n198;//你是一个专业的小偷，计划偷窃沿街的房屋。�
 // Related Topics 动态规划
 
 
-import heap.MaxHeap;
-
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution198 {
     public int rob(int[] nums) {

@@ -1,9 +1,7 @@
 package threadcoreknowledge.threadobjectclasscommonmethods;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * 描述：     用wait/notify来实现生产者消费者模式

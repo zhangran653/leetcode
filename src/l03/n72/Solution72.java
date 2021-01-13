@@ -34,8 +34,6 @@ package l03.n72;//给你两个单词 word1 和 word2，请你计算出将 word1 
 // Related Topics 字符串 动态规划
 
 
-import heap.MaxHeap;
-
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution72 {
     /**

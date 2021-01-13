@@ -19,8 +19,6 @@ package l02.n213;//你是一个专业的小偷，计划偷窃沿街的房屋，�
 // Related Topics 动态规划
 
 
-import heap.MaxHeap;
-
 import java.util.Arrays;
 
 //leetcode submit region begin(Prohibit modification and deletion)

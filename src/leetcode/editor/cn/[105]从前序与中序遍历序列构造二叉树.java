@@ -20,7 +20,6 @@ package leetcode.editor.cn;//根据一棵树的前序遍历与中序遍历构造
 
 //leetcode submit region begin(Prohibit modification and deletion)
 
-import com.sun.jnlp.ApiDialog;
 
 import java.util.HashMap;
 import java.util.Map;

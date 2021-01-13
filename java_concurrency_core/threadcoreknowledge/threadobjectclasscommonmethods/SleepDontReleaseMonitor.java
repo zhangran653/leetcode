@@ -1,7 +1,5 @@
 package threadcoreknowledge.threadobjectclasscommonmethods;
 
-import sun.awt.windows.ThemeReader;
-
 /**
  * 展示线程sleep的时候不释放synchronized的monitor，等sleep时间到了以后，正常结束后才释放锁
  */
