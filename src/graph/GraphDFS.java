@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 public class GraphDFS {
-    private List<Integer> order = new ArrayList<>();
+    private List<Integer> pre = new ArrayList<>();
+    private List<Integer> post = new ArrayList<>();
     private Graph graph;
     private Set<Integer> visited = new HashSet<>();
 
@@ -26,23 +27,29 @@ public class GraphDFS {
 
     private void dfs(int v) {
         visited.add(v);
-        order.add(v);
+        pre.add(v);
 
         for (int w : graph.adj(v)) {
             if (!visited(w)) {
                 dfs(w);
             }
         }
+        post.add(v);
     }
 
-    public Iterable<Integer> order() {
-        return this.order;
+    public Iterable<Integer> pre() {
+        return this.pre;
+    }
+
+    public Iterable<Integer> post() {
+        return this.post;
     }
 
     public static void main(String[] args) {
         Graph g = new Graph("src/graph/g.txt");
         GraphDFS dfs = new GraphDFS(g);
-        System.out.println(dfs.order());
+        System.out.println(dfs.pre());
+        System.out.println(dfs.post());
     }
 
 
