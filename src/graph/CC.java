@@ -1,9 +1,13 @@
 package graph;
 
+import java.util.ArrayList;
+
 public class CC {
     private Graph graph;
     private int[] visited;
     private int cccount;
+
+    private ArrayList<Integer>[] components;
 
     public CC(Graph graph) {
         this.graph = graph;
@@ -17,6 +21,14 @@ public class CC {
                 cccount++;
             }
         }
+        components = new ArrayList[cccount];
+        for (int c = 0; c < cccount; c++) {
+            components[c] = new ArrayList<>();
+        }
+        for (int v = 0; v < graph.V(); v++) {
+            components[visited[v]].add(v);
+        }
+
     }
 
     private boolean visited(int v) {
@@ -38,10 +50,22 @@ public class CC {
         return cccount;
     }
 
+    public boolean isConnected(int v, int w) {
+        graph.validateVertex(v);
+        graph.validateVertex(w);
+        return visited[v] == visited[w];
+    }
+
+    public ArrayList<Integer>[] components() {
+        return components;
+    }
+
     public static void main(String[] args) {
         Graph g = new Graph("src/graph/g.txt");
         CC dfs = new CC(g);
         System.out.println(dfs.count());
+        System.out.println(dfs.isConnected(0, 2));
+        System.out.println(dfs.components);
     }
 
 
