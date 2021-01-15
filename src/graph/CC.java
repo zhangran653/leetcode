@@ -1,13 +1,13 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CC {
     private Graph graph;
     private int[] visited;
     private int cccount;
 
-    private ArrayList<Integer>[] components;
 
     public CC(Graph graph) {
         this.graph = graph;
@@ -21,14 +21,6 @@ public class CC {
                 cccount++;
             }
         }
-        components = new ArrayList[cccount];
-        for (int c = 0; c < cccount; c++) {
-            components[c] = new ArrayList<>();
-        }
-        for (int v = 0; v < graph.V(); v++) {
-            components[visited[v]].add(v);
-        }
-
     }
 
     private boolean visited(int v) {
@@ -57,6 +49,13 @@ public class CC {
     }
 
     public ArrayList<Integer>[] components() {
+        ArrayList<Integer>[] components = new ArrayList[cccount];
+        for (int c = 0; c < cccount; c++) {
+            components[c] = new ArrayList<>();
+        }
+        for (int v = 0; v < graph.V(); v++) {
+            components[visited[v]].add(v);
+        }
         return components;
     }
 
@@ -65,7 +64,7 @@ public class CC {
         CC dfs = new CC(g);
         System.out.println(dfs.count());
         System.out.println(dfs.isConnected(0, 2));
-        System.out.println(dfs.components);
+        System.out.println(Arrays.toString(dfs.components()));
     }
 
 
