@@ -4,17 +4,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class SingleSourcePath {
+public class Path {
     private Graph graph;
     private int s;
+    private int t;
     private int[] visited;
     private int[] pre;
 
 
-    public SingleSourcePath(Graph graph, int s) {
+    public Path(Graph graph, int s, int t) {
         graph.validateVertex(s);
+        graph.validateVertex(t);
+
         this.graph = graph;
         this.s = s;
+        this.t = t;
         visited = new int[graph.V()];
         pre = new int[graph.V()];
         Arrays.fill(pre, -1);
@@ -26,24 +30,29 @@ public class SingleSourcePath {
     }
 
 
-    private void dfs(int v, int parent) {
+    private boolean dfs(int v, int parent) {
         visited[v] = 1;
         pre[v] = parent;
+        if (v == t) {
+            return true;
+        }
         for (int w : graph.adj(v)) {
             if (!visited(w)) {
-                dfs(w, v);
+                if (dfs(w, v)) {
+                    return true;
+                }
             }
         }
+        return false;
     }
 
-    public boolean isConnected(int t) {
-        graph.validateVertex(t);
+    public boolean isConnected() {
         return visited[t] == 1;
     }
 
-    public Iterable<Integer> path(int t) {
+    public Iterable<Integer> path() {
         ArrayList<Integer> res = new ArrayList<>();
-        if (!isConnected(t)) {
+        if (!isConnected()) {
             return res;
         }
         int cur = t;
@@ -59,8 +68,9 @@ public class SingleSourcePath {
 
     public static void main(String[] args) {
         Graph g = new Graph("src/graph/g.txt");
-        SingleSourcePath s = new SingleSourcePath(g, 0);
-        System.out.println(s.path(4));
+        Path s = new Path(g, 0, 1);
+        System.out.println(Arrays.toString(s.visited));
+        System.out.println(s.path());
     }
 
 
