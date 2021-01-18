@@ -1,18 +1,17 @@
 package graph;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GraphDFS {
     private List<Integer> pre = new ArrayList<>();
     private List<Integer> post = new ArrayList<>();
     private Graph graph;
-    private Set<Integer> visited = new HashSet<>();
+    private int[] visited;
 
     public GraphDFS(Graph graph) {
         this.graph = graph;
+        visited = new int[graph.V()];
         for (int v = 0; v < graph.V(); v++) {
             if (!visited(v)) {
                 dfs(v);
@@ -21,12 +20,12 @@ public class GraphDFS {
     }
 
     private boolean visited(int v) {
-        return visited.contains(v);
+        return visited[v] == 1;
     }
 
 
     private void dfs(int v) {
-        visited.add(v);
+        visited[v] = 1;
         pre.add(v);
 
         for (int w : graph.adj(v)) {

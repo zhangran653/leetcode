@@ -1,20 +1,20 @@
 package graph;
 
-import java.lang.reflect.Array;
-import java.util.*;
-
 public class CycleDetection {
-    private List<Integer> pre = new ArrayList<>();
-    private List<Integer> post = new ArrayList<>();
+
     private Graph graph;
     private int[] visited;
+    private boolean hasCycle = false;
 
     public CycleDetection(Graph graph) {
         this.graph = graph;
         visited = new int[graph.V()];
         for (int v = 0; v < graph.V(); v++) {
             if (!visited(v)) {
-                dfs(v);
+                if (dfs(v, v)) {
+                    hasCycle = true;
+                    break;
+                }
             }
         }
     }
@@ -24,23 +24,32 @@ public class CycleDetection {
     }
 
 
-    private void dfs(int v) {
+    private boolean dfs(int v, int parent) {
         visited[v] = 1;
-        pre.add(v);
 
         for (int w : graph.adj(v)) {
             if (!visited(w)) {
-                dfs(w);
+                if (dfs(w, v)) {
+                    return true;
+                }
+            } else if (w != parent) {
+                return true;
             }
         }
-        post.add(v);
+        return false;
     }
 
-    public Iterable<Integer> pre() {
-        return this.pre;
+    public boolean hasCycle() {
+        return hasCycle;
     }
 
-    public Iterable<Integer> post() {
-        return this.post;
+
+    public static void main(String[] args) {
+        Graph g1 = new Graph("src/graph/g.txt");
+        CycleDetection cd1 = new CycleDetection(g1);
+        System.out.println(cd1.hasCycle());
+
+        Graph g2 = new Graph("src/graph/g2.txt");
+        CycleDetection cd2 = new CycleDetection(g2);
     }
 }
