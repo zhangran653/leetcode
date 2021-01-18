@@ -58,9 +58,9 @@ public class SingleSourcePath {
     }
 
     public static void main(String[] args) {
-        Graph g = new Graph("src/graph/g.txt");
+        Graph g = new Graph("src/graph/g3.txt");
         SingleSourcePath s = new SingleSourcePath(g, 0);
-        System.out.println(s.path(4));
+        System.out.println(s.path(6));
     }
 
 

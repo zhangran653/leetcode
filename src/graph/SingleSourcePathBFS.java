@@ -7,14 +7,17 @@ public class SingleSourcePathBFS {
     private int[] visited;
     private int[] pre;
     private int s;
+    private int[] dis;
     private ArrayList<Integer> order = new ArrayList<>();
 
     public SingleSourcePathBFS(Graph graph, int s) {
         visited = new int[graph.V()];
         pre = new int[graph.V()];
+        dis = new int[graph.V()];
         this.graph = graph;
         this.s = s;
         Arrays.fill(pre, -1);
+        Arrays.fill(dis, -1);
         graph.validateVertex(s);
         bfs(s);
     }
@@ -24,7 +27,7 @@ public class SingleSourcePathBFS {
         queue.add(s);
         visited[s] = 1;
         pre[s] = s;
-
+        dis[s] = 0;
         while (!queue.isEmpty()) {
             int v = queue.remove();
             order.add(v);
@@ -33,6 +36,7 @@ public class SingleSourcePathBFS {
                     queue.add(w);
                     visited[w] = 1;
                     pre[w] = v;
+                    dis[w] = dis[v] + 1;
                 }
             }
         }
@@ -65,7 +69,7 @@ public class SingleSourcePathBFS {
     public static void main(String[] args) {
         Graph g = new Graph("src/graph/g3.txt");
         SingleSourcePathBFS s = new SingleSourcePathBFS(g, 0);
-        System.out.println(s.path(4));
+        System.out.println(s.path(6));
     }
 
 }
